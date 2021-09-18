@@ -1,0 +1,222 @@
+var data = [
+  {
+    "Name": "Bhadla Solar Park",
+    "Country": "India",
+    "MWp": 2245,
+    "Acres": 14000,
+    "SqMi": 21,
+    "SqKm": 54.4,
+    "Year": 2020,
+    "lat": 27.517534,
+    "lon": 71.930479
+  },
+  {
+    "Name": "Huanghe Hydropower Hainan Solar Park",
+    "Country": "China",
+    "MWp": 2200,
+    "Acres": 1408,
+    "SqMi": 2.2,
+    "SqKm": 5.7,
+    "Year": 2020,
+    "lat": 36.406339,
+    "lon": 94.928356
+  },
+  {
+    "Name": "Pavagada Solar Park",
+    "Country": "India",
+    "MWp": 2050,
+    "Acres": 13000,
+    "SqMi": 20.3,
+    "SqKm": 52.6,
+    "Year": 2019,
+    "lat": 14.138176,
+    "lon": 77.31466
+  },
+  {
+    "Name": "Benban Solar Park",
+    "Country": "Egypt",
+    "MWp": 1650,
+    "Acres": 9216,
+    "SqMi": 14.4,
+    "SqKm": 37.3,
+    "Year": 2019,
+    "lat": 24.437541,
+    "lon": 32.743419
+  },
+  {
+    "Name": "Tengger Desert Solar Park",
+    "Country": "China",
+    "MWp": 1547,
+    "Acres": 10625,
+    "SqMi": 16.6,
+    "SqKm": 43,
+    "Year": 2016,
+    "lat": 37.562005,
+    "lon": 105.041609
+  },
+  {
+    "Name": "Noor Abu Dhabi",
+    "Country": "United Arab Emirates",
+    "MWp": 1177,
+    "Acres": 1920,
+    "SqMi": 3,
+    "SqKm": 7.8,
+    "Year": 2019,
+    "lat": 24.535172,
+    "lon": 55.432026
+  },
+  {
+    "Name": "Mohammed bin Rashid Al Maktoum Solar Park",
+    "Country": "United Arab Emirates",
+    "MWp": 1013,
+    "Acres": 19200,
+    "SqMi": 30,
+    "SqKm": 77.7,
+    "Year": 2020,
+    "lat": 24.76541,
+    "lon": 55.36759
+  },
+  {
+    "Name": "Kurnool Ultra Mega Solar Park",
+    "Country": "India",
+    "MWp": 1000,
+    "Acres": 5952,
+    "SqMi": 9.3,
+    "SqKm": 24.1,
+    "Year": 2017,
+    "lat": 15.681043,
+    "lon": 78.282561
+  },
+  {
+    "Name": "Datong Solar Power Top Runner Base",
+    "Country": "China",
+    "MWp": 1000,
+    "Acres": 6176,
+    "SqMi": 9.6,
+    "SqKm": 24.9,
+    "Year": 2016,
+    "lat": 40.075241,
+    "lon": 113.320196
+  },
+  {
+    "Name": "NP Kunta",
+    "Country": "India",
+    "MWp": 978,
+    "Acres": 7680,
+    "SqMi": 12,
+    "SqKm": 31.1,
+    "Year": 2021,
+    "lat": 14.04942,
+    "lon": 78.428858
+  },
+  {
+    "Name": "Longyangxia Dam Solar Park",
+    "Country": "China",
+    "MWp": 850,
+    "Acres": 6656,
+    "SqMi": 10.4,
+    "SqKm": 26.9,
+    "Year": 2015,
+    "lat": 36.118896,
+    "lon": 100.956078
+  },
+  {
+    "Name": "Villanueva Solar Park",
+    "Country": "Mexico",
+    "MWp": 828,
+    "Acres": 6784,
+    "SqMi": 10.6,
+    "SqKm": 27.5,
+    "Year": 2018,
+    "lat": 25.592143,
+    "lon": -103.042954
+  },
+  {
+    "Name": "Copper Mountain Solar Facility",
+    "Country": "United States",
+    "MWp": 802,
+    "Acres": 4000,
+    "SqMi": 6.2,
+    "SqKm": 16.1,
+    "Year": 2016,
+    "lat": 39.499958,
+    "lon": -106.152182
+  },
+  {
+    "Name": "Mount Signal Solar",
+    "Country": "United States",
+    "MWp": 794,
+    "Acres": 3929,
+    "SqMi": 6.1,
+    "SqKm": 15.8,
+    "Year": 2020,
+    "lat": 32.677841,
+    "lon": -115.671657
+  },
+  {
+    "Name": "Charanka Solar Park",
+    "Country": "India",
+    "MWp": 790,
+    "Acres": 4900,
+    "SqMi": 7.6,
+    "SqKm": 19.7,
+    "Year": 2012,
+    "lat": 23.902072,
+    "lon": 71.194772
+  },
+  {
+    "Name": "Rewa Ultra Mega Solar",
+    "Country": "India",
+    "MWp": 750,
+    "Acres": 1590,
+    "SqMi": 2.4,
+    "SqKm": 6.2,
+    "Year": 2018,
+    "lat": 23.225816,
+    "lon": 77.393163
+  },
+  {
+    "Name": "Solar Star (I and II)",
+    "Country": "United States",
+    "MWp": 747,
+    "Acres": 3200,
+    "SqMi": 5,
+    "SqKm": 12.9,
+    "Year": 2015,
+    "lat": 34.939137,
+    "lon": -118.337189
+  },
+  {
+    "Name": "Kamuthi Solar Power Project",
+    "Country": "India",
+    "MWp": 648,
+    "Acres": 2500,
+    "SqMi": 3.9,
+    "SqKm": 10.1,
+    "Year": 2017,
+    "lat": 9.345771,
+    "lon": 78.393862
+  },
+  {
+    "Name": "Dau Tieng Solar Power Project",
+    "Country": "Vietnam",
+    "MWp": 600,
+    "Acres": 1245,
+    "SqMi": 1.9,
+    "SqKm": 4.9,
+    "Year": 2019,
+    "lat": 11.456168,
+    "lon": 106.228033
+  },
+  {
+    "Name": "Desert Sunlight Solar Farm",
+    "Country": "United States",
+    "MWp": 550,
+    "Acres": 3900,
+    "SqMi": 6.2,
+    "SqKm": 16.1,
+    "Year": 2015,
+    "lat": 33.821244,
+    "lon": -115.393583
+  }
+];

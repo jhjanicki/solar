@@ -1,0 +1,828 @@
+<!doctype html>
+<html>
+
+<head>
+  <meta charset="utf-8">
+  <meta name='viewport' content='initial-scale=1,maximum-scale=1,user-scalable=no' />
+  <title>The 20 Largest Solar Power Plants</title>
+  <meta name="description" content="The 20 Largest Solar Power Plants">
+  <meta name="author" content="Julia Janicki">
+  <link rel="shortcut icon" href="#">
+  <link href='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css' rel='stylesheet' type='text/css'>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:ital,wght@0,300;0,400;0,600;0,700;1,300;1,400;1,600;1,700&display=swap"
+    rel="stylesheet">
+  <script src='https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.js'></script>
+  <link href='https://api.mapbox.com/mapbox-gl-js/v1.6.0/mapbox-gl.css' rel='stylesheet' />
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      color: #0C1B34;
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    #map {
+      position: absolute;
+      top: 0;
+      bottom: 0;
+      width: 100%;
+    }
+
+    h1 {
+      font-size: 17px;
+      line-height: 25px;
+    }
+
+    h2 {
+      font-size: 14px;
+      line-height: 20px;
+      margin-bottom: 10px;
+    }
+
+
+    #console {
+      position: absolute;
+      width: 250px;
+      margin: 10px;
+      padding: 10px 20px 10px 30px;
+      background-color: #F0F0F1;
+      border-radius: 5px;
+      z-index: 15;
+      transition: 0.3s ease-in-out;
+      box-shadow: 0 1px 1px 0 rgba(66, 66, 66, 0.08), 0 1px 3px 1px rgba(66, 66, 66, 0.16);
+    }
+
+    .active {
+      transform: translate3d(-280px, 0, 0);
+      transition: 0.3s ease-in-out;
+    }
+
+    .itemWrapper {
+      margin-top: -20px;
+    }
+
+    #toggleConsole {
+      position: absolute;
+      right: 5px;
+      top: 0px;
+    }
+
+    #toggleConsole img {
+      width: 16px;
+      opacity: 0.7;
+    }
+
+    #toggleConsole img:hover {
+      opacity: 0.5;
+      transition: all .5s ease;
+      cursor: pointer;
+    }
+
+
+    .circlesWrapper {
+      position: relative;
+      height: 14px;
+      width: 14px;
+      border-radius: 15px;
+      margin: 20px 0 10px 0;
+    }
+
+
+    .circlesLegend {
+      vertical-align: middle;
+      margin-left: -5px;
+      margin-top: -5px;
+    }
+
+    .flip {
+      -webkit-transform: scaleX(-1);
+      transform: scaleX(-1);
+      opacity: 1;
+    }
+
+    #console h1,
+    #console h2 {
+      text-align: left;
+    }
+
+    .verticalLine {
+      margin-right: 5px;
+      border-right: 0.3px solid #ECE8E1;
+    }
+
+    #title {
+      font-family: 'Source Sans Pro', sans-serif;
+      color: #0c1b34;
+      font-weight: 700;
+      margin-top: 10px;
+      margin-bottom: 5px;
+    }
+
+    #title a {
+      color: #0c1b34;
+    }
+
+    #title a:hover {
+      color: black;
+      transition: all 1s ease;
+      text-decoration: underline !important;
+    }
+
+    .mapboxgl-popup {
+      min-width: 280px !important;
+      font-family: 'Source Sans Pro', sans-serif;
+      text-align: left;
+      z-index: 20;
+    }
+
+    .mapboxgl-popup-content {
+      font-family: 'Source Sans Pro', sans-serif;
+      padding: 0;
+    }
+
+    .mapboxgl-popup-content h3 {
+      text-align: left;
+      font-size: 16px;
+      margin: 0;
+      display: block;
+      padding: 15px;
+      font-weight: 700;
+      margin-top: -5px;
+    }
+
+    .mapboxgl-popup-content h4 {
+      padding: 8px;
+      font-size: 14px;
+      line-height: 20px;
+    }
+
+    .mapboxgl-container {
+      cursor: pointer;
+    }
+
+    .mapboxgl-popup-anchor-top>.mapboxgl-popup-content {
+      margin-top: 3px;
+    }
+
+    .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+      border-bottom-color: rgb(61, 59, 59);
+    }
+
+    .mapboxgl-popup-close-button {
+      transform: scale(2);
+      color: #fff;
+      padding: 0px;
+      margin-right: 10px;
+    }
+
+    .mapboxgl-popup-close-button:hover,
+    .mapboxgl-popup-close-button:active,
+    .mapboxgl-popup-close-button:target {
+      background: none !important;
+      border: none !important;
+      outline: none !important;
+      color: #cfcfcf;
+      transition: all 0.5s ease;
+    }
+
+
+    .legend.label {
+      display: inline;
+    }
+
+    .legend img {
+      width: 10px;
+      height: 10px;
+      display: inline;
+    }
+
+    .label {
+      color: black;
+      font-size: 12px;
+      font-weight: 400;
+    }
+
+    #legend {
+      margin-top: 20px;
+      margin-left: 0px !important;
+    }
+
+    .instruction {
+      margin-top: 20px;
+    }
+
+    .instruction p {
+      color: #fe9929;
+      font-weight: 700;
+      font-size: 16px;
+    }
+
+    .mapboxgl-popup.popupColor h3 {
+      background: #fecc5c !important;
+      color: #fff;
+    }
+
+    .item {
+      display: inline-block;
+      vertical-align: middle;
+      margin-right: 10px;
+    }
+
+    .item2 {
+      display: inline-block;
+      margin-left: 2px;
+      font-size: 12px;
+    }
+
+    .item3 {
+      display: inline-block;
+      margin-left: 14px;
+      font-size: 12px;
+      width: 20px;
+      height: 20px;
+      margin-top: 20px;
+    }
+
+    .popupTitle {
+      font-family: 'Source Sans Pro', sans-serif;
+    }
+
+    .mapboxgl-popup-anchor-top>.mapboxgl-popup-tip {
+      /* border-bottom-color: rgb(61, 59, 59); */
+    }
+
+
+    #minCircle,
+    #minCircle2 {
+      width: 10px;
+      height: 10px;
+    }
+
+    #maxCircle,
+    #maxCircle2 {
+      width: 46px;
+      height: 46px;
+    }
+
+    #capacity {
+      margin-left: 0px;
+      margin-top: -40px;
+    }
+
+    input[type="range"] {
+      -webkit-appearance: none !important;
+      width: 95%;
+      height: 15px;
+      background-color: #cfcfcf;
+      border-radius: 10px;
+      margin-left: 0px;
+      transition: all 0.3s ease;
+    }
+
+    input[type="range"]:active,
+    input[type="range"]:focus,
+    input[type="range"]:target {
+      border: none !important;
+      outline: none !important;
+    }
+
+    input[type="range"]::-webkit-slider-thumb {
+      -webkit-appearance: none !important;
+      width: 20px;
+      height: 20px;
+      background-color: #fed98e;
+      border-radius: 30px;
+      transition: all 0.5s ease;
+    }
+
+    input[type="range"]::-webkit-slider-thumb:hover {
+      background-color: #fed98e;
+      transition: all 0.5s ease;
+      cursor: pointer;
+    }
+
+    #sliderbar,
+    #sliderbar2 {
+      margin-top: 10px;
+    }
+
+    #start {
+      position: relative;
+      display: inline;
+      margin-top: 10px;
+      margin-left: 0px;
+      font-size: 14px;
+    }
+
+    #end {
+      position: relative;
+      display: inline;
+      margin-top: 10px;
+      margin-left: 90px;
+      font-size: 14px;
+    }
+
+    #capacityWrapper {
+      display: inherit;
+      margin-top: 20px;
+      ;
+    }
+
+
+    @media screen and (max-width: 800px) {
+
+      .tab-slider--trigger {
+        font-size: 10px;
+        margin-right: 0px;
+      }
+
+      #console {
+        width: 250px;
+      }
+
+      .active {
+        transform: translate3d(-230px, 0, 0);
+      }
+
+      .label {
+        font-size: 10px;
+        margin-left: -5px;
+      }
+
+      .item2 {
+        font-size: 10px;
+        margin-left: 2px;
+      }
+
+      h1 {
+        font-size: 15px;
+      }
+
+      h2 {
+        font-size: 11.5px;
+      }
+
+      .subtitle {
+        font-size: 13px;
+      }
+
+      #console {
+        padding: 10px 20px;
+      }
+
+      #title {
+        margin-top: -10px;
+      }
+
+      .mapboxgl-popup {
+        max-width: 250px !important;
+        min-width: 220px !important;
+      }
+
+
+      #legendCol2 {
+        margin-left: -20px !important;
+      }
+
+      #start {
+        margin-left: 0px;
+        font-size: 11px;
+      }
+
+      #end {
+        margin-left: 120px;
+        font-size: 12px;
+      }
+    }
+
+    @media screen and (max-width: 600px) {
+
+
+      body {
+        font-size: 11px !important;
+      }
+
+      #title {
+        font-size: 13px;
+      }
+
+      .subtitle {
+        font-size: 12px;
+      }
+
+      .label {
+        font-size: 10px;
+        margin-left: -5px;
+      }
+
+      h1 {
+        font-size: 14px;
+      }
+
+      h2 {
+        font-size: 11.5px;
+      }
+
+      .instruction p {
+        font-size: 10px;
+      }
+
+      #legendCol1 {
+        margin-left: -10px !important;
+      }
+
+      #legendCol2 {
+        margin-left: -20px !important;
+      }
+
+      #start,
+      #start2 {
+        margin-left: 0px;
+        font-size: 11px;
+      }
+    }
+
+    @media screen and (max-width: 500px) {
+      .mapboxgl-popup {
+        transform: none !important;
+        top: auto !important;
+        bottom: 20px !important;
+        left: 0;
+        right: 0;
+        margin-left: auto;
+        margin-right: auto;
+      }
+
+      .mapboxgl-popup-anchor-top .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-bottom .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-center .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-left .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-right .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-bottom-right .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-bottom-left .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-top-right .mapboxgl-popup-tip,
+      .mapboxgl-popup-anchor-top-left .mapboxgl-popup-tip {
+        display: none !important;
+      }
+    }
+  </style>
+</head>
+
+<body>
+  <div id='map'></div>
+  <div id='console'>
+    <h1 id='title'>The 20 Largest Solar Power Plants</h1>
+    <div id="capacityWrapper">
+
+      <div class='session' id='sliderbar'>
+        <input id='slider' class='row' type='range' min='0' max='' step='1' value='' />
+        <div id="wrapper">
+          <p id="start"></p>
+          <p id="end"></p>
+        </div>
+        <p>Min capacity: <span id="selectedCapacity">500</span> MW </p>
+      </div>
+
+      <div id="legend" class='row itemWrapper'>
+        <img id="minCircle" class='item2' src="./img/legend.svg" />
+        <p id="minCircleVal" class='item2'></p>
+        <img id="maxCircle" class='item2' src="./img/legend.svg" />
+        <p id="maxCircleVal" class='item2'></p>
+      </div>
+    </div>
+
+    <div class="instruction itemWrapper" id="instruction">
+      <p class="item">Click circles for more info</p>
+    </div>
+    <div class="data">
+      <p><b>Data Source:</b> Wikipedia<br>
+        <b>Suggested By:</b> Sean Miller | @HipsterVizNinja
+      </p>
+    </div>
+  </div>
+  <!-- end line -->
+  </div>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.2/jquery.min.js"></script>
+  <script src='https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js'></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/5.14.2/d3.js"></script>
+  <script src="./data/data.js"></script>
+  <script>
+    var windowWidth = $(window).width();
+    var windowHeight = $(window).height();
+    var viewportWidth = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    var viewportHeight = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
+
+    var mobile = false;
+    var medium = false;
+    var iphone = false;
+    var safari = false;
+
+    $(window).resize(function () {
+      if (windowWidth != $(window).width() || windowHeight != $(window).height()) {
+        location.reload();
+        return;
+      }
+    });
+
+    if (viewportWidth < 800 && viewportWidth >= 600) {
+      medium = true;
+    }
+
+    if (/Android|webOS|iPhone|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent) || viewportWidth < 600) {
+      mobile = true;
+    }
+
+    if (/iPhone/i.test(navigator.userAgent)) {
+      iphone = true;
+    } else {
+      //console.log(/iPhone/i.test(navigator.userAgent))
+    }
+
+    //if Safari
+    var ua = navigator.userAgent.toLowerCase();
+    if (ua.indexOf('safari') != -1) {
+      if (ua.indexOf('chrome') > -1) { // Chrome
+      } else { // Safari
+        safari = true;
+      }
+    }
+
+    if (viewportWidth < 600) {
+      $("#instruction").css("display", "none");
+      $("#data").css("display", "none");
+    } else {
+      $("#instruction").css("display", "inherit");
+      $("#data").css("display", "inherit");
+    }
+
+    var legendShow = false;
+
+    mapboxgl.accessToken = 'pk.eyJ1IjoiamhqYW5pY2tpIiwiYSI6Il9vb1ZlWnMifQ.zJie3Sr8zh3h5rR8IBMB2A';
+
+    var map;
+    var popup;
+
+
+    // status
+    var geoJsonData = {
+      'type': 'FeatureCollection',
+      'features': []
+    };
+
+    var capacityFilter = [">=", ["get", "capacity"], 500];
+
+
+    var min = 500;
+    var max = 2200;
+    var maxSlider = 2200;
+    var minCircleSize = 3;
+    var maxCircleSize = 25;
+
+    var tab1 = true;
+
+    if (mobile) {
+
+      map = new mapboxgl.Map({
+        container: 'map', // container element id
+        style: 'mapbox://styles/jhjanicki/cktq0qt0k2ra817n3l2h6r7kl',
+        center: [-15.068340, 36.564861], // initial map center in [lon, lat]
+        zoom: 1,
+        minZoom: 1
+      });
+
+    } else {
+
+      map = new mapboxgl.Map({
+        container: 'map', // container element id
+        style: 'mapbox://styles/jhjanicki/cktq0qt0k2ra817n3l2h6r7kl',
+        center: [-15.068340, 36.564861], // initial map center in [lon, lat]
+        zoom: 2,
+        minZoom: 2
+      });
+
+    }
+
+    map.on('load', function () {
+
+      init(); // test google sheet
+      $("#toggleConsole").click(function () {
+        $("#console").toggleClass("active");
+        $("#toggleConsole img").toggleClass("flip");
+      });
+      $("#toggleConsole").css("top", 240);
+
+      if (medium) {
+        $("#toggleConsole").css("top", 200);
+      }
+
+      if (mobile) {
+        $("#toggleConsole").css("top", 115);
+      }
+
+
+    });
+
+    if (!mobile) {
+      map.addControl(new mapboxgl.NavigationControl());
+    }
+
+    function init() {
+
+      data.forEach(function (row) {
+
+        var feature = {
+          'type': 'Feature',
+          'properties': {
+            'longitude': +row.lon,
+            'latitude': +row.lat,
+            'name': row.Name,
+            'country': row.Country,
+            'capacity': +row.MWp,
+            'acres': row.Acres,
+            'SqMi': row.SqMi,
+            'SqKm': row.SqKm,
+            'year': row.Year
+          },
+          'geometry': {
+            'type': 'Point',
+            'coordinates': [+row.lon, +row.lat],
+          }
+        };
+        geoJsonData['features'].push(feature);
+
+
+      });
+
+
+      $("#minCircleVal").html(`${min} MW`);
+      $("#maxCircleVal").html(`${max}+ MW`);
+
+      map.addLayer({
+        id: 'plants',
+        type: 'circle',
+        source: {
+          type: 'geojson',
+          data: geoJsonData
+        },
+        paint: {
+          "circle-color": "#fecc5c",
+          'circle-radius': [
+            'interpolate',
+            ["linear"],
+            ['get', 'capacity'],
+            min,
+            minCircleSize,
+            max,
+            maxCircleSize
+          ],
+          'circle-opacity': 0.7,
+          'circle-stroke-color': '#252525',
+          'circle-stroke-width': 0.5
+        }
+      });
+
+
+      $("#start").html(min + 'MW');
+      $("#end").html(maxSlider + 'MW');
+
+      $('#slider').prop('min', min);
+      $('#slider').prop('max', maxSlider);
+      $('#slider').prop('value', min);
+
+
+      var sliderValG = $("#slider").val();
+      sliderValG = parseInt(sliderValG);
+
+
+      document.getElementById('slider').addEventListener('input', function (e) {
+        var sliderVal = +e.target.value;
+        if (sliderVal > 1) {
+          sliderVal = Math.round(sliderVal);
+        }
+        sliderValG = sliderVal;
+
+        capacityFilter = ['>=', ['get', 'capacity'], sliderVal];
+        document.getElementById('selectedCapacity').innerText = sliderVal;
+
+        map.setFilter('plants', ['all', capacityFilter]);
+      }); //end slider input
+
+
+
+
+      map.on('mouseleave', function () {
+        map.getCanvas().style.cursor = '';
+        // popup.270();
+      });
+
+
+      map.on('click', 'plants', function (e) {
+
+        //console.log(e.features[0].properties);
+        map.getCanvas().style.cursor = 'pointer';
+
+        var latitude = e.features[0].properties.latitude;
+        var longitude = e.features[0].properties.longitude;
+        var country = e.features[0].properties.country;
+        var name = e.features[0].properties.name;
+        var acres = e.features[0].properties.acres;
+        var SqMi = e.features[0].properties.SqMi;
+        var SqKm = e.features[0].properties.SqKm;
+        var capacity = e.features[0].properties.capacity;
+        var year = e.features[0].properties.year;
+
+
+        while (Math.abs(e.lngLat.lng - latitude) > 180) {
+          latitude += e.lngLat.lng > latitude ? 360 : -360;
+        }
+
+        var popupClass = "popupColor";
+        var color = "#fecc5c";
+
+        popup = new mapboxgl.Popup({
+          closeButton: true,
+          closeOnClick: true,
+          className: popupClass
+        })
+          .setHTML('<h3 class="popupClass"><b>' + name + '</b></h3>'
+            + '<h4><b>Country</b>: ' + country + '<br>'
+            + '<b>Capacity</b>: ' + capacity + 'MW<br>'
+            + '<b>Year built</b>: ' + year + '<br>'
+            + '<b>Area</b>: ' + SqMi + ' sq. miles / ' + SqKm + ' sq. Km</h4>')
+          .setLngLat([longitude, latitude])
+          .addTo(map);
+
+
+
+        $(`.button.${popupClass}`).hover(function () {
+          $(".button a").css("color", "white");
+          $(this).css("background-color", color);
+        }, function () {
+          $(".button a").css("color", color);
+          $(this).css("background-color", "white");
+        });
+        $(".mapboxgl-popup-tip").css("border-bottom-color", color);
+
+        $(".mapboxgl-popup-tip").css("border-bottom-color", color);
+
+      });
+
+      //mobile
+
+      map.on('touchstart', 'plants', function (e) {
+
+        map.getCanvas().style.cursor = 'pointer';
+
+        var latitude = e.features[0].properties.latitude;
+        var longitude = e.features[0].properties.longitude;
+        var country = e.features[0].properties.country;
+        var name = e.features[0].properties.name;
+        var acres = e.features[0].properties.acres;
+        var SqMi = e.features[0].properties.SqMi;
+        var SqKm = e.features[0].properties.SqKm;
+        var capacity = e.features[0].properties.capacity;
+        var year = e.features[0].properties.year;
+
+
+        while (Math.abs(e.lngLat.lng - latitude) > 180) {
+          latitude += e.lngLat.lng > latitude ? 360 : -360;
+        }
+
+        var popupClass = "popupColor";
+        var color = "#fecc5c";
+
+        popup = new mapboxgl.Popup({
+          closeButton: true,
+          closeOnClick: true,
+          className: popupClass
+        })
+          .setHTML('<h3 class="popupClass"><b>' + name + '</b></h3>'
+            + '<h4><b>Country</b>: ' + country + '<br>'
+            + '<b>Capacity</b>: ' + capacity + 'MW<br>'
+            + '<b>Year built</b>: ' + year + '<br>'
+            + '<b>Area</b>: ' + SqMi + ' sq. miles / ' + SqKm + ' sq. Km</h4>')
+          .setLngLat([longitude, latitude])
+          .addTo(map);
+
+
+        $(`.button.${popupClass}`).hover(function () {
+          $(".button a").css("color", "white");
+          $(this).css("background-color", color);
+        }, function () {
+          $(".button a").css("color", color);
+          $(this).css("background-color", "white");
+        });
+        $(".mapboxgl-popup-tip").css("border-bottom-color", color);
+
+        $(".mapboxgl-popup-tip").css("border-bottom-color", color);
+
+
+      });
+
+
+    }
+  </script>
+</body>
+
+</html>
